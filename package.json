@@ -1,0 +1,23 @@
+{
+  "name": "generator-node-microservice",
+  "version": "1.0.0",
+  "description": "generator of node's microservice for yeoman",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "microservice",
+    "generator",
+    "yeoman",
+    "node",
+    "yeoman-generator"
+  ],
+  "files": [],
+  "author": "Alan Zanatta",
+  "license": "ISC",
+  "dependencies": {
+    "cross-spawn": "^0.4.0",
+    "yeoman-generator": "^0.19.2"
+  }
+}
