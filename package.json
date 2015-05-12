@@ -1,5 +1,5 @@
 {
-  "name": "generator-node-microservice",
+  "name": "generator-micronode",
   "version": "1.0.0",
   "description": "generator of node's microservice for yeoman",
   "main": "index.js",
