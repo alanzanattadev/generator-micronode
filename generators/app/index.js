@@ -34,6 +34,7 @@ module.exports = generators.Base.extend({
         'Database',
         'Web',
         'WebSocket',
+        'WebClient',
         'Docker',
         'Git',
       ]
@@ -111,7 +112,7 @@ module.exports = generators.Base.extend({
       "gulp-mocha",
       "gulp-jshint"
     ];
-    if (this.answers.orm != 'None') {
+    if (this.answers.orm != 'None' && this.answers.orm !== undefined) {
       this.toInstall.push(this.answers.orm);
       this.orm = this.answers.orm;
     }
@@ -126,6 +127,8 @@ module.exports = generators.Base.extend({
       this.toInstall.push("gridfs-stream");
     if (this.answers.httpfile == "Yes")
       this.toInstall.push("multer");
+    if (this.answers.frameworks.indexOf('WebClient') != -1)
+      this.toInstall.push("superagent");
     // prepare git
     if (this.answers.frameworks.indexOf('Git') != -1)
       this.git = true;
