@@ -171,9 +171,22 @@ module.exports = generators.Base.extend({
     // create config folder
     fs.mkdirSync(this.destinationPath("./configs"));
     if (this.express)
-      this.fs.copyTpl(this.templatePath("api.js"), this.destinationPath("configs/api.js"));
+      this.fs.copyTpl(this.templatePath("api.js"), this.destinationPath("configs/api.js"), {
+        packages: {
+          multer: this.answers.httpfile
+        }
+      });
     if (this.orm == "mongoose") {
-      this.fs.copyTpl(this.templatePath("database.js"), this.destinationPath("configs/database.js"));
+      this.fs.copyTpl(this.templatePath("database.js"), this.destinationPath("configs/database.js"), {
+        project: {
+          name: this.answers.name,
+          description: this.answers.description,
+          author: this.answers.author
+        },
+        packages: {
+          gridfs: this.answers.gridfs
+        }
+      });
       fs.mkdirSync(this.destinationPath("./lib/models"));
     }
     // write gulpfile.js
