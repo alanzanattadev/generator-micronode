@@ -1,8 +1,8 @@
 var express = require('express');
+var multer = require('multer');
 var app = express();
 exports.app = app;
-var assetsRouter = require('../lib/assets');
-var multer = require('multer');
+// var router = require('../lib/controller.js');
 
 app.use(multer({
   inMemory: true,
@@ -11,4 +11,5 @@ app.use(multer({
     return filename;
   }
 }));
-app.use('/assets', assetsRouter);
+
+// app.use('/route', router);

@@ -3,7 +3,7 @@ var Grid = require('gridfs-stream');
 var app = require('./api').app;
 
 var envIp = process.env.RESOURCE_DATABASE_IP;
-var db = "assets";
+var db = "databasename";
 var ip = envIp === undefined ? "localhost" : envIp;
 
 exports.connect = function(done) {
