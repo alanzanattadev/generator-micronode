@@ -23,3 +23,7 @@ exports.connect = function(done) {
       done();
   });
 }
+
+exports.disconnect = function(done) {
+  mongoose.connection.close(done);
+};
