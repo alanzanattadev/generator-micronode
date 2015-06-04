@@ -27,10 +27,6 @@ module.exports = generators.Base.extend({
       name    : 'author',
       message : 'Your project author',
     }, {
-      type    : 'input',
-      name    : 'repo',
-      message : 'Your project repository',
-    }, {
       type    : 'checkbox',
       name    : 'frameworks',
       message : 'pluggable elements',
@@ -41,6 +37,11 @@ module.exports = generators.Base.extend({
         'Docker',
         'Git',
       ]
+    }, {
+      type    : 'input',
+      name    : 'repo',
+      message : 'Your project repository',
+      when    : function(answers) {return answers.frameworks.indexOf('Git') != -1;}
     }, {
       type    : 'list',
       name    : 'httpfile',
