@@ -118,6 +118,7 @@ module.exports = generators.Base.extend({
     }
     if (this.answers.frameworks.indexOf('Web') != -1) {
       this.toInstall.push("express");
+      this.toInstall.push("body-parser");
       this.toInstallDev.push("supertest");
       this.express = true;
     }
