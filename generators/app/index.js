@@ -148,6 +148,8 @@ module.exports = generators.Base.extend({
     }
     // write yeoman rc
     this.config.save();
+    // write README.md
+    this.fs.copyTpl(this.templatePath("README.md"), this.destinationPath("README.md"));
     // write package.json
     this.fs.writeJSON("./package.json", this.packageJson);
     // create lib folder
