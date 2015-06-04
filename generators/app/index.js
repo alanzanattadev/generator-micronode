@@ -160,8 +160,10 @@ module.exports = generators.Base.extend({
     fs.mkdirSync(this.destinationPath("./configs"));
     if (this.express)
       this.fs.copyTpl(this.templatePath("api.js"), this.destinationPath("configs/api.js"));
-    if (this.orm == "mongoose")
+    if (this.orm == "mongoose") {
       this.fs.copyTpl(this.templatePath("database.js"), this.destinationPath("configs/database.js"));
+      fs.mkdirSync(this.destinationPath("./lib/models"));
+    }
     // write gulpfile.js
     this.fs.copyTpl(this.templatePath("gulpfile.js"), this.destinationPath("./gulpfile.js"));
     // write server.json
