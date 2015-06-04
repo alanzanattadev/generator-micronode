@@ -150,6 +150,8 @@ module.exports = generators.Base.extend({
     this.config.save();
     // write README.md
     this.fs.copyTpl(this.templatePath("README.md"), this.destinationPath("README.md"));
+    // write server.js
+    this.fs.copyTpl(this.templatePath("server.js"), this.destinationPath("server.js"));
     // write package.json
     this.fs.writeJSON("./package.json", this.packageJson);
     // create lib folder
