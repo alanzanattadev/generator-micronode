@@ -45,6 +45,15 @@ module.exports = generators.Base.extend({
       when    : function(answers) {return answers.frameworks.indexOf('Git') != -1;}
     }, {
       type    : 'list',
+      name    : 'basebranch',
+      message : 'Do you want the base commits in another branch ?',
+      choices : [
+        'Yes',
+        'No'
+      ],
+      when    : function(answers) {return answers.frameworks.indexOf('Git') != -1;}
+    }, {
+      type    : 'list',
       name    : 'httpfile',
       message : 'Will you receive multipart request ?',
       choices : [
@@ -218,10 +227,17 @@ module.exports = generators.Base.extend({
   end: function() {
     // if repo : git add / git commit / git push
     if (this.git) {
+      if (this.answers.basebranch == 'Yes') {
+        spawn.sync('git', ['checkout', '-b', 'base-project']);
+      }
       spawn.sync('git', ['add', '.gitignore']);
       spawn.sync('git', ['commit', '-m', '.gitignore']);
       spawn.sync('git', ['add', '.']);
       spawn.sync('git', ['commit', '-m', 'base project']);
+      if (this.answers.basebranch == 'Yes') {
+        spawn.sync('git', ['checkout', 'master']);
+        spawn.sync('git', ['merge', 'base-project', '--no-ff']);
+      }
       if (this.repo)
         spawn.sync('git', ['push', 'origin', 'master']);
     }
