@@ -103,7 +103,8 @@ module.exports = generators.Base.extend({
       },
       main: "server.js",
       scripts: {
-        test: "gulp test"
+        test: "gulp test",
+        start: 'node server.js'
       }
     };
     this.packageJson = packageJson;
