@@ -37,6 +37,7 @@ module.exports = generators.Base.extend({
         'WebClient',
         'Docker',
         'Git',
+        'Kafka'
       ]
     }, {
       type    : 'input',
@@ -132,6 +133,10 @@ module.exports = generators.Base.extend({
       this.toInstallDev.push("supertest");
       this.express = true;
     }
+    if (this.answers.frameworks.indexOf('Kafka') != -1) {
+      this.toInstall.push("kafka-node");
+      this.kafka = true;
+    }
     if (this.answers.frameworks.indexOf("WebSocket") != -1)
       this.toInstall.push("socket.io");
     if (this.answers.gridfs == "Yes")
@@ -183,9 +188,16 @@ module.exports = generators.Base.extend({
     if (this.express)
       this.fs.copyTpl(this.templatePath("api.js"), this.destinationPath("configs/api.js"), {
         packages: {
-          multer: this.answers.httpfile
+          multer: this.answers.httpfile == "Yes"
         }
       });
+    if (this.kafka) {
+      this.fs.copyTpl(this.templatePath("kafka.js"), this.destinationPath("configs/kafka.js"), {
+        project: {
+          name: this.answers.name
+        }
+      });
+    }
     if (this.orm == "mongoose") {
       this.fs.copyTpl(this.templatePath("database.js"), this.destinationPath("configs/database.js"), {
         project: {
@@ -194,7 +206,7 @@ module.exports = generators.Base.extend({
           author: this.answers.author
         },
         packages: {
-          gridfs: this.answers.gridfs
+          gridfs: this.answers.gridfs == "Yes"
         }
       });
       fs.mkdirSync(this.destinationPath("./lib/models"));
@@ -208,8 +220,18 @@ module.exports = generators.Base.extend({
     // if orm : write config/database.js
 
     // if docker : write Dockerfile
-    if (this.docker)
+    if (this.docker) {
       this.fs.copyTpl(this.templatePath("Dockerfile"), this.destinationPath("./Dockerfile"));
+      this.fs.copyTpl(this.templatePath("docker-compose.yml"), this.destinationPath("./docker-compose.yml"), {
+        project: {
+          name: this.answers.name
+        },
+        packages: {
+          kafka: this.kafka
+        }
+      });
+      this.fs.copyTpl(this.templatePath("setup.sh"), this.destinationPath("./setup.sh"));
+    }
     // if repo : git remote add origin ...
     if (this.repo)
       spawn.sync('git', ['remote', 'add', 'origin', this.repo]);

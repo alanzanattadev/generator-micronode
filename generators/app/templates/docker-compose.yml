@@ -1,0 +1,34 @@
+<%= project.name %>:
+  build: .
+  ports:
+    - "8000:80"
+  volumes:
+    - .:/var/api/
+  privileged: true
+  environment:
+    MICROSERVICE_DATABASE_IP: "<%= project.name %>_mongodb_1"
+    <% if (packages.kafka) { %>
+    MICROSERVICE_ZOOKEEPER_IP: "<%= project.name %>_kafka_1"
+    <% } %>
+mongodb:
+  image: mongo
+  ports:
+    - "8010:27017"
+zookeeper:
+  image: mesoscloud/zookeeper
+  ports:
+    - 2181:2181
+  environment:
+    MYID: 1
+kafka:
+  image: wurstmeister/kafka
+  hostname: <%= project.name %>_kafka_1
+  ports:
+    - 9092:9092
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+    KAFKA_ADVERTISED_HOST_NAME: <%= project.name %>_kafka_1
+    KAFKA_ADVERTISED_PORT: 9092
+    KAFKA_ZOOKEEPER_CONNECT: <%= project.name %>_zookeeper_1
+    KAFKA_CREATE_TOPICS: test:1:1
